@@ -40,12 +40,14 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar Styling - P3 Command Menu Style */
+/* ========================================================
+   SIDEBAR & NAVIGASI UTAMA
+   ======================================================== */
 .sidebar {
   width: 290px;
   background: var(--p3-black);
   border-right: 6px solid var(--p3-electric-blue);
-  padding: 40px 20px;
+  padding: 40px 16px;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -78,7 +80,8 @@ body {
 .nav-menu {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  width: 100%;
 }
 
 .nav-btn {
@@ -89,36 +92,39 @@ body {
   color: var(--p3-black);
   border: none;
   padding: 14px 20px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 900;
   font-style: italic;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
-  transform: skewX(-18deg);
-  box-shadow: -6px 6px 0px var(--p3-cobalt-bg);
+  transform: skewX(-15deg);
+  box-shadow: -5px 5px 0px var(--p3-cobalt-bg);
+  width: calc(100% - 12px);
+  margin-left: 6px;
 }
 
 .nav-btn i, .nav-btn span {
-  transform: skewX(18deg);
+  transform: skewX(15deg);
   display: inline-block;
 }
 
 .nav-btn:hover {
   background: var(--p3-yellow-accent);
   color: var(--p3-black);
-  transform: skewX(-18deg) translateX(12px);
-  box-shadow: -8px 8px 0px var(--p3-white);
+  box-shadow: -5px 5px 0px var(--p3-white);
 }
 
 .nav-btn.active {
   background: var(--p3-yellow-accent);
   color: var(--p3-black);
-  transform: skewX(-18deg) translateX(16px);
-  box-shadow: -10px 10px 0px var(--p3-orange-accent), -12px 12px 0px var(--p3-white);
+  transform: skewX(-15deg);
+  box-shadow: -6px 6px 0px var(--p3-orange-accent), -10px 10px 0px var(--p3-black);
 }
 
-/* Main Content Area */
+/* ========================================================
+   MAIN CONTENT AREA & TOPBAR
+   ======================================================== */
 .main-content {
   flex: 1;
   padding: 40px 52px;
@@ -171,7 +177,9 @@ body {
   display: inline-block;
 }
 
-/* Tab Layout */
+/* ========================================================
+   TAB CONTENT & CARDS
+   ======================================================== */
 .tab-content {
   display: none;
 }
@@ -182,7 +190,6 @@ body {
   gap: 32px;
 }
 
-/* P3 Card Container (Angled Cutout Style) */
 .card {
   background: var(--p3-card-bg);
   border: 3px solid var(--p3-white);
@@ -234,14 +241,18 @@ body {
   margin-bottom: 22px;
 }
 
-/* Grids */
 .grid-2-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
 }
 
-/* Day Filter Buttons (P3 Load Data Slot Selector) */
+/* ========================================================
+   FILTER HARI (EFEK HOVER & ACTIVE DI-PERBAIKI)
+   ======================================================== */
+/* ========================================================
+   FILTER HARI (EFEK ACTIVE PERMANEN SAAT DIKLIK)
+   ======================================================== */
 .day-tabs {
   display: flex;
   gap: 10px;
@@ -261,7 +272,8 @@ body {
   font-weight: 900;
   font-style: italic;
   text-transform: uppercase;
-  transition: all 0.15s;
+  transition: all 0.15s ease-in-out;
+  position: relative;
 }
 
 .day-btn span {
@@ -269,16 +281,30 @@ body {
   transform: skewX(12deg);
 }
 
-.day-btn.active {
-  background: var(--p3-white);
-  color: var(--p3-black);
-  box-shadow: -4px 4px 0px var(--p3-yellow-accent);
+/* Efek Hover biasa */
+.day-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--p3-yellow-accent);
 }
 
-/* Schedule Cards (P3 Data Slot / Status Card) */
+/* Efek Tombol Aktif (Kuning dengan Shadow Oranye khas P3R) */
+.day-btn.active {
+  background: var(--p3-yellow-accent) !important;
+  color: var(--p3-black) !important;
+  box-shadow: -4px 4px 0px var(--p3-orange-accent) !important;
+}
+
+.day-btn.active:hover {
+  background: var(--p3-white) !important;
+  color: var(--p3-black) !important;
+}
+
+/* ========================================================
+   KARTU JADWAL (GARIS KUNING DISERAGAMKAN PADA SEMUA KARTU)
+   ======================================================== */
 .schedule-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 22px;
 }
 
@@ -286,6 +312,7 @@ body {
   background: var(--p3-white);
   color: var(--p3-black);
   border: 3px solid var(--p3-black);
+  border-left: 8px solid var(--p3-yellow-accent); /* Garis kuning untuk semua kartu */
   padding: 20px;
   position: relative;
   transition: transform 0.15s, box-shadow 0.15s;
@@ -293,13 +320,8 @@ body {
 }
 
 .sched-item:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 10px 10px 0px var(--p3-yellow-accent), 12px 12px 0px var(--p3-black);
-}
-
-.sched-item.praktikum {
-  background: var(--p3-yellow-accent);
-  color: var(--p3-black);
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px var(--p3-yellow-accent), 10px 10px 0px var(--p3-black);
 }
 
 .sched-time {
@@ -310,34 +332,34 @@ body {
   color: var(--p3-white);
   padding: 4px 10px;
   width: fit-content;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   transform: skewX(-10deg);
-}
-
-.sched-item.praktikum .sched-time {
-  background: var(--p3-black);
-  color: var(--p3-yellow-accent);
+  display: inline-block;
+  border-bottom: 2px solid var(--p3-yellow-accent);
 }
 
 .sched-title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 900;
   font-style: italic;
   color: var(--p3-black);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-transform: uppercase;
+  line-height: 1.3;
 }
 
 .sched-meta {
   font-size: 0.85rem;
   font-weight: 800;
-  color: #333333;
+  color: #222222;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-/* Form Controls */
+/* ========================================================
+   FORM CONTROLS & BUTTONS
+   ======================================================== */
 .form-group {
   margin-bottom: 20px;
 }
@@ -396,7 +418,9 @@ input:focus, select:focus {
   box-shadow: -8px 8px 0px var(--p3-orange-accent);
 }
 
-/* Task & Finance Lists */
+/* ========================================================
+   DAFTAR TUGAS, KEUANGAN & PROJECT HUB
+   ======================================================== */
 .task-list, .finance-list {
   list-style: none;
   display: flex;
@@ -429,7 +453,6 @@ input:focus, select:focus {
 .badge-prak { background: var(--p3-yellow-accent); color: var(--p3-black); }
 .badge-ujian { background: var(--p3-red-accent); color: var(--p3-white); }
 
-/* Finance Stat Cards */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -466,7 +489,6 @@ input:focus, select:focus {
 .stat-card.income h3 { color: #00ff88; }
 .stat-card.expense h3 { color: var(--p3-red-accent); }
 
-/* Project Hub */
 .inline-form {
   display: flex;
   gap: 14px;
@@ -495,14 +517,13 @@ input:focus, select:focus {
 }
 
 /* ========================================================
-   RESPONSIVE MEDIA QUERIES FOR MOBILE (<= 768px)
+   RESPONSIVE MEDIA QUERIES UNTUK TAMPILAN SMARTPHONE (<= 768px)
    ======================================================== */
 @media (max-width: 768px) {
   body {
     flex-direction: column;
   }
 
-  /* Adjust Sidebar Layout on Mobile */
   .sidebar {
     width: 100%;
     border-right: none;
@@ -537,18 +558,19 @@ input:focus, select:focus {
     flex-direction: column;
     gap: 4px;
     text-align: center;
+    width: 100%;
+    margin-left: 0;
   }
 
   .nav-btn i, .nav-btn span {
     transform: skewX(10deg);
   }
 
-  .nav-btn:hover, .nav-btn.active {
-    transform: skewX(-10deg) translateY(-2deg);
+  .nav-btn.active {
+    transform: skewX(-10deg);
     box-shadow: -4px 4px 0px var(--p3-white);
   }
 
-  /* Adjust Main Content Layout */
   .main-content {
     padding: 20px 16px;
   }
@@ -581,7 +603,6 @@ input:focus, select:focus {
     transform: skewX(10deg);
   }
 
-  /* Grid Layouts to Single Column */
   .grid-2-col, .stats-grid, .project-grid {
     grid-template-columns: 1fr;
     gap: 18px;
@@ -601,7 +622,6 @@ input:focus, select:focus {
     transform: skewX(8deg);
   }
 
-  /* Scrollable Day Tabs on Mobile */
   .day-tabs {
     width: 100%;
     overflow-x: auto;
