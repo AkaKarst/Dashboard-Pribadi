@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website pribadi Fajar</title>
+  <title>Website Pribadi Fajar</title>
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,11 +13,11 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
+  <!-- Sidebar Navigasi Utama -->
   <aside class="sidebar">
     <div class="brand">
       <i class="fa-solid fa-chart-pie"></i>
-      <span>Alice</span>
+      <span>Selamat datang capt</span>
     </div>
     <nav class="nav-menu">
       <button class="nav-btn active" onclick="switchTab('jadwal')">
@@ -32,7 +32,7 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
+  <!-- Area Konten Utama -->
   <main class="main-content">
     
     <!-- Top Bar Header -->
@@ -43,14 +43,14 @@
       </div>
       <div class="clock-card">
         <i class="fa-regular fa-clock"></i>
-        <span id="live-clock">00:00:00 WITA</span>
+        <span id="clock">00:00:00 WITA</span>
       </div>
     </header>
 
     <!-- SECTION 1: JADWAL & TUGAS -->
     <section id="sec-jadwal" class="tab-content active">
       
-      <!-- Jadwal Mingguan -->
+      <!-- Jadwal Kuliah & Praktikum -->
       <div class="card">
         <div class="card-header">
           <h3><i class="fa-solid fa-graduation-cap"></i> <span>Jadwal Kuliah & Praktikum</span></h3>
@@ -63,22 +63,22 @@
           </div>
         </div>
         <div class="schedule-grid" id="schedule-container">
-          <!-- Rendered via JS -->
+          <!-- Item jadwal di-render melalui script.js -->
         </div>
       </div>
 
-      <!-- Manajemen Tugas -->
+      <!-- Manajemen Tugas & Ujian -->
       <div class="grid-2-col">
         <!-- Form Tambah Tugas -->
         <div class="card">
           <h3><i class="fa-solid fa-plus-circle"></i> <span>Tambah Tugas / Ujian</span></h3>
           <form id="task-form" onsubmit="handleAddTask(event)">
             <div class="form-group">
-              <label>Judul Tugas / Matkul</label>
+              <label for="task-title">Judul Tugas / Matkul</label>
               <input type="text" id="task-title" placeholder="Contoh: Laporan Praktikum Anavey" required>
             </div>
             <div class="form-group">
-              <label>Kategori</label>
+              <label for="task-category">Kategori</label>
               <select id="task-category">
                 <option value="Tugas Matkul">Tugas Matkul</option>
                 <option value="Praktikum / UAP">Praktikum / UAP</option>
@@ -86,7 +86,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Deadline</label>
+              <label for="task-deadline">Deadline</label>
               <input type="date" id="task-deadline" required>
             </div>
             <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> <span>Simpan Tugas</span></button>
@@ -97,7 +97,7 @@
         <div class="card">
           <h3><i class="fa-solid fa-list-check"></i> <span>Daftar Tugas & Ujian</span></h3>
           <ul class="task-list" id="task-list-container">
-            <!-- Rendered via JS -->
+            <!-- Item tugas di-render melalui script.js -->
           </ul>
         </div>
       </div>
@@ -128,15 +128,15 @@
           <h3><i class="fa-solid fa-money-bill-transfer"></i> <span>Catat Transaksi</span></h3>
           <form id="finance-form" onsubmit="handleAddTransaction(event)">
             <div class="form-group">
-              <label>Keterangan</label>
-              <input type="text" id="fin-desc" placeholder="Contoh: Beli Modul / Transferan" required>
+              <label for="fin-desc">Keterangan</label>
+              <input type="text" id="fin-desc" placeholder="Contoh: Modul / Transferan" required>
             </div>
             <div class="form-group">
-              <label>Jumlah (Rp)</label>
+              <label for="fin-amount">Jumlah (Rp)</label>
               <input type="number" id="fin-amount" placeholder="50000" required>
             </div>
             <div class="form-group">
-              <label>Tipe</label>
+              <label for="fin-type">Tipe</label>
               <select id="fin-type">
                 <option value="pengeluaran">Pengeluaran</option>
                 <option value="pemasukan">Pemasukan</option>
@@ -150,7 +150,7 @@
         <div class="card">
           <h3><i class="fa-solid fa-history"></i> <span>Riwayat Keuangan</span></h3>
           <ul class="finance-list" id="finance-list-container">
-            <!-- Rendered via JS -->
+            <!-- Item riwayat keuangan di-render melalui script.js -->
           </ul>
         </div>
       </div>
@@ -168,13 +168,18 @@
         </form>
 
         <div class="project-grid" id="project-container">
-          <!-- Rendered via JS -->
+          <!-- Item project di-render melalui script.js -->
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- FIREBASE CDN SDK (Compat Mode untuk Menghindari CORS & Scope Error) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  
+  <!-- Main Application Script -->
   <script src="script.js"></script>
 </body>
 </html>
