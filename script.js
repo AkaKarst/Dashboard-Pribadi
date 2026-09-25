@@ -4,6 +4,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyAf1ZHM80qKCzQ9bu4PpNldRuN_33koybo",
   authDomain: "dashboard-pribadi-162e1.firebaseapp.com",
+  databaseURL: "https://dashboard-pribadi-162e1-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "dashboard-pribadi-162e1",
   storageBucket: "dashboard-pribadi-162e1.firebasestorage.app",
   messagingSenderId: "613130090634",
@@ -145,7 +146,7 @@ window.handleAddTask = function(e) {
   const deadlineEl = document.getElementById('task-deadline');
 
   if (!titleEl || !categoryEl || !deadlineEl) {
-    alert("Elemen input tugas tidak ditemukan!");
+    alert("Elemen form tugas tidak ditemukan!");
     return;
   }
 
@@ -167,12 +168,14 @@ window.handleAddTask = function(e) {
     e.target.reset();
   }).catch((error) => {
     console.error("Gagal menyimpan tugas ke Firebase:", error);
-    alert("Terjadi kesalahan saat menyimpan tugas ke Firebase.");
+    alert("Gagal menyimpan tugas: " + error.message);
   });
 };
 
 window.deleteTask = function(key) {
-  tasksRef.child(key).remove();
+  if (confirm("Hapus tugas ini?")) {
+    tasksRef.child(key).remove();
+  }
 };
 
 function renderTasks() {
@@ -180,8 +183,9 @@ function renderTasks() {
   if (!container) return;
 
   const keys = Object.keys(currentTasks);
+
   if (keys.length === 0) {
-    container.innerHTML = `<p style="color:var(--p3-white); font-weight:800;">Belum ada tugas tersimpan.</p>`;
+    container.innerHTML = `<p style="color:#ffffff; font-weight:800; font-style:italic;">Belum ada tugas tersimpan.</p>`;
     return;
   }
 
@@ -193,14 +197,16 @@ function renderTasks() {
 
     return `
       <li class="task-item">
-        <div>
-          <span class="badge ${badgeClass}">${t.category || 'Tugas'}</span>
-          <strong style="font-style: italic; font-size: 1rem;">${t.title}</strong>
-          <div style="font-size: 0.8rem; color: var(--p3-yellow-accent); margin-top: 4px;">
+        <div style="flex: 1;">
+          <div style="margin-bottom: 6px;">
+            <span class="badge ${badgeClass}">${t.category || 'Tugas'}</span>
+          </div>
+          <strong style="color: #ffffff; font-size: 1.05rem; font-style: italic;">${t.title}</strong>
+          <div style="font-size: 0.85rem; color: #ffcc00; margin-top: 6px; font-weight: 800;">
             <i class="fa-regular fa-calendar-xmark"></i> Deadline: ${t.deadline}
           </div>
         </div>
-        <button onclick="window.deleteTask('${key}')" style="background: transparent; border: none; color: var(--p3-red-accent); cursor: pointer; font-size: 1.1rem;">
+        <button onclick="window.deleteTask('${key}')" title="Hapus Tugas" style="background: transparent; border: none; color: #ff0044; cursor: pointer; font-size: 1.2rem; padding: 6px;">
           <i class="fa-solid fa-trash-can"></i>
         </button>
       </li>
@@ -225,7 +231,7 @@ window.handleAddTransaction = function(e) {
   const type = typeEl.value;
 
   if (!desc || isNaN(amount)) {
-    alert("Harap masukkan keterangan dan jumlah transaksi yang valid!");
+    alert("Harap isi keterangan dan jumlah transaksi!");
     return;
   }
 
@@ -236,8 +242,6 @@ window.handleAddTransaction = function(e) {
     date: new Date().toLocaleDateString('id-ID')
   }).then(() => {
     e.target.reset();
-  }).catch((error) => {
-    console.error("Gagal menyimpan transaksi:", error);
   });
 };
 
@@ -271,7 +275,7 @@ function renderFinances() {
   if (!container) return;
 
   if (keys.length === 0) {
-    container.innerHTML = `<li style="color: var(--p3-white); font-weight:800;">Belum ada riwayat transaksi.</li>`;
+    container.innerHTML = `<li style="color: #ffffff; font-weight:800;">Belum ada riwayat transaksi.</li>`;
     return;
   }
 
@@ -281,14 +285,14 @@ function renderFinances() {
     return `
       <li class="fin-item">
         <div>
-          <strong style="font-style: italic;">${t.desc}</strong>
+          <strong style="font-style: italic; color: #ffffff;">${t.desc}</strong>
           <div style="font-size: 0.75rem; color: #ccc;">${t.date || ''}</div>
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-weight: 900; font-style: italic; color: ${isInc ? '#00ff88' : 'var(--p3-red-accent)'};">
+          <span style="font-weight: 900; font-style: italic; color: ${isInc ? '#00ff88' : '#ff0044'};">
             ${isInc ? '+' : '-'} Rp ${(t.amount || 0).toLocaleString('id-ID')}
           </span>
-          <button onclick="window.deleteFinance('${key}')" style="background: transparent; border: none; color: var(--p3-red-accent); cursor: pointer;">
+          <button onclick="window.deleteFinance('${key}')" style="background: transparent; border: none; color: #ff0044; cursor: pointer;">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
@@ -311,18 +315,13 @@ window.handleAddProject = function(e) {
   const title = titleEl.value.trim();
   const desc = descEl.value.trim();
 
-  if (!title || !desc) {
-    alert("Harap isi nama dan deskripsi project!");
-    return;
-  }
+  if (!title || !desc) return;
 
   projectsRef.push({
     title: title,
     desc: desc
   }).then(() => {
     e.target.reset();
-  }).catch((error) => {
-    console.error("Gagal membuat project:", error);
   });
 };
 
@@ -337,7 +336,7 @@ function renderProjects() {
   const keys = Object.keys(currentProjects);
 
   if (keys.length === 0) {
-    container.innerHTML = `<p style="color: var(--p3-white); font-weight:800;">Belum ada project aktif.</p>`;
+    container.innerHTML = `<p style="color: #ffffff; font-weight:800;">Belum ada project aktif.</p>`;
     return;
   }
 
@@ -347,7 +346,7 @@ function renderProjects() {
       <div class="project-card">
         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
           <h4><i class="fa-solid fa-folder"></i> ${p.title}</h4>
-          <button onclick="window.deleteProject('${key}')" style="background: transparent; border: none; color: var(--p3-red-accent); cursor: pointer;">
+          <button onclick="window.deleteProject('${key}')" style="background: transparent; border: none; color: #ff0044; cursor: pointer;">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
@@ -361,9 +360,6 @@ function renderProjects() {
 // 7. INISIALISASI SAAT HALAMAN DIMUAT (DOM READY)
 // ========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Jalankan Jam Real-time
   startClock();
-
-  // 2. Set Tampilan Awal Jadwal ke Hari 'Senin'
   window.filterDay('Senin');
 });
