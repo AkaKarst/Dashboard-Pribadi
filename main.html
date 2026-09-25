@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website pribadi Fajar</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Alice</span>
+    </div>
+    <nav class="nav-menu">
+      <button class="nav-btn active" onclick="switchTab('jadwal')">
+        <i class="fa-solid fa-calendar-days"></i> Jadwal & Tugas
+      </button>
+      <button class="nav-btn" onclick="switchTab('keuangan')">
+        <i class="fa-solid fa-wallet"></i> Keuanganmu
+      </button>
+      <button class="nav-btn" onclick="switchTab('project')">
+        <i class="fa-solid fa-diagram-project"></i> Project Hub
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Bar Header -->
+    <header class="topbar">
+      <div>
+        <h2>Dashboard Utama</h2>
+        <p class="subtitle">Semester 3 - Prodi Statistika UNMUL</p>
+      </div>
+      <div class="clock-card">
+        <i class="fa-regular fa-clock"></i>
+        <span id="live-clock">00:00:00 WITA</span>
+      </div>
+    </header>
+
+    <!-- SECTION 1: JADWAL & TUGAS -->
+    <section id="sec-jadwal" class="tab-content active">
+      
+      <!-- Jadwal Mingguan -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-graduation-cap"></i> Jadwal Kuliah & Praktikum</h3>
+          <div class="day-tabs" id="day-buttons">
+            <button class="day-btn active" onclick="filterDay('Senin')">Senin</button>
+            <button class="day-btn" onclick="filterDay('Selasa')">Selasa</button>
+            <button class="day-btn" onclick="filterDay('Rabu')">Rabu</button>
+            <button class="day-btn" onclick="filterDay('Kamis')">Kamis</button>
+            <button class="day-btn" onclick="filterDay('Jumat')">Jumat</button>
+          </div>
+        </div>
+        <div class="schedule-grid" id="schedule-container">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Manajemen Tugas -->
+      <div class="grid-2-col">
+        <!-- Form Tambah Tugas -->
+        <div class="card">
+          <h3><i class="fa-solid fa-plus-circle"></i> Tambah Tugas / Ujian</h3>
+          <form id="task-form" onsubmit="handleAddTask(event)">
+            <div class="form-group">
+              <label>Judul Tugas / Matkul</label>
+              <input type="text" id="task-title" placeholder="Contoh: Laporan Praktikum Anavey" required>
+            </div>
+            <div class="form-group">
+              <label>Kategori</label>
+              <select id="task-category">
+                <option value="Tugas Matkul">Tugas Matkul</option>
+                <option value="Praktikum / UAP">Praktikum / UAP</option>
+                <option value="UTS / UAS">UTS / UAS</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Deadline</label>
+              <input type="date" id="task-deadline" required>
+            </div>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> Simpan Tugas</button>
+          </form>
+        </div>
+
+        <!-- Daftar Tugas -->
+        <div class="card">
+          <h3><i class="fa-solid fa-list-check"></i> Daftar Tugas & Ujian</h3>
+          <ul class="task-list" id="task-list-container">
+            <!-- Rendered via JS -->
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: KEUANGAN -->
+    <section id="sec-keuangan" class="tab-content">
+      
+      <div class="stats-grid">
+        <div class="stat-card balance">
+          <p>Total Saldo</p>
+          <h2 id="total-balance">Rp 0</h2>
+        </div>
+        <div class="stat-card income">
+          <p>Pemasukan</p>
+          <h3 id="total-income">Rp 0</h3>
+        </div>
+        <div class="stat-card expense">
+          <p>Pengeluaran</p>
+          <h3 id="total-expense">Rp 0</h3>
+        </div>
+      </div>
+
+      <div class="grid-2-col">
+        <!-- Form Keuangan -->
+        <div class="card">
+          <h3><i class="fa-solid fa-money-bill-transfer"></i> Catat Transaksi</h3>
+          <form id="finance-form" onsubmit="handleAddTransaction(event)">
+            <div class="form-group">
+              <label>Keterangan</label>
+              <input type="text" id="fin-desc" placeholder="Contoh: Beli Modul / Transferan" required>
+            </div>
+            <div class="form-group">
+              <label>Jumlah (Rp)</label>
+              <input type="number" id="fin-amount" placeholder="50000" required>
+            </div>
+            <div class="form-group">
+              <label>Tipe</label>
+              <select id="fin-type">
+                <option value="pengeluaran">Pengeluaran</option>
+                <option value="pemasukan">Pemasukan</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Transaksi</button>
+          </form>
+        </div>
+
+        <!-- Riwayat Transaksi -->
+        <div class="card">
+          <h3><i class="fa-solid fa-history"></i> Riwayat Keuangan</h3>
+          <ul class="finance-list" id="finance-list-container">
+            <!-- Rendered via JS -->
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 3: PROJECT HUB -->
+    <section id="sec-project" class="tab-content">
+      <div class="card">
+        <h3><i class="fa-solid fa-diagram-project"></i> Project Hub (Statistika & Web)</h3>
+        <form id="project-form" class="inline-form" onsubmit="handleAddProject(event)">
+          <input type="text" id="proj-title" placeholder="Nama Project (misal: Dashboard ISPUnet)" required>
+          <input type="text" id="proj-desc" placeholder="Deskripsi singkat..." required>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-folder-plus"></i> Buat Project</button>
+        </form>
+
+        <div class="project-grid" id="project-container">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

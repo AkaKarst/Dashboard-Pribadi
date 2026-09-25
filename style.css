@@ -1,0 +1,488 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,800;0,900;1,800;1,900&display=swap');
+
+:root {
+  /* Authentic Persona 3 Reload UI Palette */
+  --p3-cobalt-bg: #0044cc;        /* Pure P3 Cobalt Blue */
+  --p3-cobalt-dark: #002b85;      /* Deep Navy Accent */
+  --p3-electric-blue: #0088ff;   /* Bright Electric Cyan */
+  --p3-white: #ffffff;
+  --p3-black: #000000;
+  
+  --p3-yellow-accent: #ffcc00;   /* Command Menu Yellow Accent */
+  --p3-orange-accent: #ff4800;   /* Highlighting Orange */
+  --p3-red-accent: #ff0044;      /* Danger / Alert Red */
+  
+  --p3-card-bg: rgba(0, 35, 110, 0.9);
+  --p3-card-border: #00a2ff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background: var(--p3-cobalt-bg);
+  background-image: 
+    radial-gradient(circle at 80% 20%, rgba(0, 162, 255, 0.4) 0%, transparent 50%),
+    linear-gradient(135deg, #0055ff 0%, #002b85 100%);
+  background-attachment: fixed;
+  color: var(--p3-white);
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Sidebar Styling - P3 Command Menu Style */
+.sidebar {
+  width: 290px;
+  background: var(--p3-black);
+  border-right: 6px solid var(--p3-electric-blue);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  box-shadow: 10px 0 0px var(--p3-electric-blue), 15px 0 30px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--p3-white);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  transform: skewX(-15deg);
+  background: var(--p3-cobalt-bg);
+  padding: 10px 16px;
+  box-shadow: -5px 5px 0px var(--p3-yellow-accent);
+}
+
+.brand i {
+  color: var(--p3-yellow-accent);
+  transform: skewX(15deg);
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--p3-white);
+  color: var(--p3-black);
+  border: none;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  transform: skewX(-18deg);
+  box-shadow: -6px 6px 0px var(--p3-cobalt-bg);
+}
+
+.nav-btn i, .nav-btn span {
+  transform: skewX(18deg);
+}
+
+.nav-btn:hover {
+  background: var(--p3-yellow-accent);
+  color: var(--p3-black);
+  transform: skewX(-18deg) translateX(12px);
+  box-shadow: -8px 8px 0px var(--p3-white);
+}
+
+.nav-btn.active {
+  background: var(--p3-yellow-accent);
+  color: var(--p3-black);
+  transform: skewX(-18deg) translateX(16px);
+  box-shadow: -10px 10px 0px var(--p3-orange-accent), -12px 12px 0px var(--p3-white);
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 40px 52px;
+  overflow-y: auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+  border-bottom: 4px solid var(--p3-white);
+  padding-bottom: 18px;
+}
+
+.topbar h2 {
+  color: var(--p3-white);
+  font-size: 2.3rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  text-shadow: 4px 4px 0px var(--p3-black), 6px 6px 0px var(--p3-electric-blue);
+}
+
+.subtitle {
+  color: var(--p3-yellow-accent);
+  font-size: 1rem;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.clock-card {
+  background: var(--p3-white);
+  color: var(--p3-black);
+  padding: 10px 28px;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: skewX(-15deg);
+  box-shadow: -6px 6px 0px var(--p3-yellow-accent), -10px 10px 0px var(--p3-black);
+}
+
+.clock-card i, .clock-card span {
+  transform: skewX(15deg);
+}
+
+/* Tab Layout */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* P3 Card Container (Angled Cutout Style) */
+.card {
+  background: var(--p3-card-bg);
+  border: 3px solid var(--p3-white);
+  padding: 28px;
+  position: relative;
+  box-shadow: 10px 10px 0px var(--p3-black);
+  backdrop-filter: blur(4px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 16px;
+  height: 16px;
+  background: var(--p3-yellow-accent);
+}
+
+.card h3 {
+  font-size: 1.35rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--p3-white);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 0.5px;
+  background: var(--p3-black);
+  padding: 8px 16px;
+  width: fit-content;
+  transform: skewX(-12deg);
+  box-shadow: -4px 4px 0px var(--p3-electric-blue);
+}
+
+.card h3 i, .card h3 span {
+  transform: skewX(12deg);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+/* Grids */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 960px) {
+  body { flex-direction: column; }
+  .sidebar { width: 100%; border-right: none; border-bottom: 6px solid var(--p3-electric-blue); }
+  .grid-2-col { grid-template-columns: 1fr; }
+}
+
+/* Day Filter Buttons (P3 Load Data Slot Selector) */
+.day-tabs {
+  display: flex;
+  gap: 10px;
+  background: var(--p3-black);
+  padding: 8px;
+  transform: skewX(-12deg);
+  box-shadow: -4px 4px 0px var(--p3-electric-blue);
+}
+
+.day-btn {
+  background: transparent;
+  border: none;
+  color: var(--p3-white);
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+
+.day-btn span {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+.day-btn.active {
+  background: var(--p3-white);
+  color: var(--p3-black);
+  box-shadow: -4px 4px 0px var(--p3-yellow-accent);
+}
+
+/* Schedule Cards (P3 Data Slot / Status Card) */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+}
+
+.sched-item {
+  background: var(--p3-white);
+  color: var(--p3-black);
+  border: 3px solid var(--p3-black);
+  padding: 20px;
+  position: relative;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 6px 6px 0px var(--p3-black);
+}
+
+.sched-item:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0px var(--p3-yellow-accent), 12px 12px 0px var(--p3-black);
+}
+
+.sched-item.praktikum {
+  background: var(--p3-yellow-accent);
+  color: var(--p3-black);
+}
+
+.sched-time {
+  font-size: 0.85rem;
+  font-weight: 900;
+  font-style: italic;
+  background: var(--p3-black);
+  color: var(--p3-white);
+  padding: 4px 10px;
+  width: fit-content;
+  margin-bottom: 10px;
+  transform: skewX(-10deg);
+}
+
+.sched-item.praktikum .sched-time {
+  background: var(--p3-black);
+  color: var(--p3-yellow-accent);
+}
+
+.sched-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--p3-black);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.sched-meta {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #333333;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Form Controls */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--p3-yellow-accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--p3-black);
+  border: 2px solid var(--p3-white);
+  color: var(--p3-white);
+  font-size: 0.95rem;
+  font-weight: 800;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus, select:focus {
+  border-color: var(--p3-yellow-accent);
+  box-shadow: -4px 4px 0px var(--p3-yellow-accent);
+}
+
+.btn-primary {
+  background: var(--p3-yellow-accent);
+  color: var(--p3-black);
+  border: 3px solid var(--p3-black);
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  transform: skewX(-12deg);
+  box-shadow: -6px 6px 0px var(--p3-white);
+  transition: all 0.15s;
+}
+
+.btn-primary:hover {
+  background: var(--p3-white);
+  color: var(--p3-black);
+  box-shadow: -8px 8px 0px var(--p3-orange-accent);
+}
+
+/* Task & Finance Lists */
+.task-list, .finance-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task-item, .fin-item {
+  background: var(--p3-black);
+  border: 2px solid var(--p3-electric-blue);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 4px 4px 0px var(--p3-cobalt-dark);
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-right: 12px;
+  display: inline-block;
+  transform: skewX(-10deg);
+}
+
+.badge-matkul { background: var(--p3-electric-blue); color: var(--p3-black); }
+.badge-prak { background: var(--p3-yellow-accent); color: var(--p3-black); }
+.badge-ujian { background: var(--p3-red-accent); color: var(--p3-white); }
+
+/* Finance Stat Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.stat-card {
+  background: var(--p3-black);
+  padding: 24px;
+  border: 3px solid var(--p3-white);
+  box-shadow: 8px 8px 0px var(--p3-cobalt-dark);
+}
+
+.stat-card.balance { border-color: var(--p3-yellow-accent); }
+.stat-card.income { border-color: #00ff88; }
+.stat-card.expense { border-color: var(--p3-red-accent); }
+
+.stat-card p {
+  font-size: 0.9rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--p3-white);
+  text-transform: uppercase;
+}
+
+.stat-card h2, .stat-card h3 {
+  margin-top: 10px;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.8rem;
+}
+
+.stat-card.balance h2 { color: var(--p3-yellow-accent); }
+.stat-card.income h3 { color: #00ff88; }
+.stat-card.expense h3 { color: var(--p3-red-accent); }
+
+/* Project Grid */
+.inline-form {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 22px;
+}
+
+.project-card {
+  background: var(--p3-black);
+  padding: 22px;
+  border: 2px solid var(--p3-white);
+  box-shadow: 6px 6px 0px var(--p3-electric-blue);
+}
+
+.project-card h4 {
+  color: var(--p3-yellow-accent);
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+}
