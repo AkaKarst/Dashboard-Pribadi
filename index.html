@@ -7,7 +7,7 @@
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -21,13 +21,13 @@
     </div>
     <nav class="nav-menu">
       <button class="nav-btn active" onclick="switchTab('jadwal')">
-        <i class="fa-solid fa-calendar-days"></i> Jadwal & Tugas
+        <i class="fa-solid fa-calendar-days"></i> <span>Jadwal & Tugas</span>
       </button>
       <button class="nav-btn" onclick="switchTab('keuangan')">
-        <i class="fa-solid fa-wallet"></i> Keuanganmu
+        <i class="fa-solid fa-wallet"></i> <span>Keuanganmu</span>
       </button>
       <button class="nav-btn" onclick="switchTab('project')">
-        <i class="fa-solid fa-diagram-project"></i> Project Hub
+        <i class="fa-solid fa-diagram-project"></i> <span>Project Hub</span>
       </button>
     </nav>
   </aside>
@@ -53,13 +53,13 @@
       <!-- Jadwal Mingguan -->
       <div class="card">
         <div class="card-header">
-          <h3><i class="fa-solid fa-graduation-cap"></i> Jadwal Kuliah & Praktikum</h3>
+          <h3><i class="fa-solid fa-graduation-cap"></i> <span>Jadwal Kuliah & Praktikum</span></h3>
           <div class="day-tabs" id="day-buttons">
-            <button class="day-btn active" onclick="filterDay('Senin')">Senin</button>
-            <button class="day-btn" onclick="filterDay('Selasa')">Selasa</button>
-            <button class="day-btn" onclick="filterDay('Rabu')">Rabu</button>
-            <button class="day-btn" onclick="filterDay('Kamis')">Kamis</button>
-            <button class="day-btn" onclick="filterDay('Jumat')">Jumat</button>
+            <button class="day-btn active" onclick="filterDay('Senin')"><span>Senin</span></button>
+            <button class="day-btn" onclick="filterDay('Selasa')"><span>Selasa</span></button>
+            <button class="day-btn" onclick="filterDay('Rabu')"><span>Rabu</span></button>
+            <button class="day-btn" onclick="filterDay('Kamis')"><span>Kamis</span></button>
+            <button class="day-btn" onclick="filterDay('Jumat')"><span>Jumat</span></button>
           </div>
         </div>
         <div class="schedule-grid" id="schedule-container">
@@ -71,7 +71,7 @@
       <div class="grid-2-col">
         <!-- Form Tambah Tugas -->
         <div class="card">
-          <h3><i class="fa-solid fa-plus-circle"></i> Tambah Tugas / Ujian</h3>
+          <h3><i class="fa-solid fa-plus-circle"></i> <span>Tambah Tugas / Ujian</span></h3>
           <form id="task-form" onsubmit="handleAddTask(event)">
             <div class="form-group">
               <label>Judul Tugas / Matkul</label>
@@ -89,13 +89,13 @@
               <label>Deadline</label>
               <input type="date" id="task-deadline" required>
             </div>
-            <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> Simpan Tugas</button>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-save"></i> <span>Simpan Tugas</span></button>
           </form>
         </div>
 
         <!-- Daftar Tugas -->
         <div class="card">
-          <h3><i class="fa-solid fa-list-check"></i> Daftar Tugas & Ujian</h3>
+          <h3><i class="fa-solid fa-list-check"></i> <span>Daftar Tugas & Ujian</span></h3>
           <ul class="task-list" id="task-list-container">
             <!-- Rendered via JS -->
           </ul>
@@ -125,7 +125,7 @@
       <div class="grid-2-col">
         <!-- Form Keuangan -->
         <div class="card">
-          <h3><i class="fa-solid fa-money-bill-transfer"></i> Catat Transaksi</h3>
+          <h3><i class="fa-solid fa-money-bill-transfer"></i> <span>Catat Transaksi</span></h3>
           <form id="finance-form" onsubmit="handleAddTransaction(event)">
             <div class="form-group">
               <label>Keterangan</label>
@@ -142,13 +142,13 @@
                 <option value="pemasukan">Pemasukan</option>
               </select>
             </div>
-            <button type="submit" class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Transaksi</button>
+            <button type="submit" class="btn-primary"><i class="fa-solid fa-plus"></i> <span>Tambah Transaksi</span></button>
           </form>
         </div>
 
         <!-- Riwayat Transaksi -->
         <div class="card">
-          <h3><i class="fa-solid fa-history"></i> Riwayat Keuangan</h3>
+          <h3><i class="fa-solid fa-history"></i> <span>Riwayat Keuangan</span></h3>
           <ul class="finance-list" id="finance-list-container">
             <!-- Rendered via JS -->
           </ul>
@@ -160,11 +160,11 @@
     <!-- SECTION 3: PROJECT HUB -->
     <section id="sec-project" class="tab-content">
       <div class="card">
-        <h3><i class="fa-solid fa-diagram-project"></i> Project Hub (Statistika & Web)</h3>
+        <h3><i class="fa-solid fa-diagram-project"></i> <span>Project Hub (Statistika & Web)</span></h3>
         <form id="project-form" class="inline-form" onsubmit="handleAddProject(event)">
           <input type="text" id="proj-title" placeholder="Nama Project (misal: Dashboard ISPUnet)" required>
           <input type="text" id="proj-desc" placeholder="Deskripsi singkat..." required>
-          <button type="submit" class="btn-primary"><i class="fa-solid fa-folder-plus"></i> Buat Project</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-folder-plus"></i> <span>Buat Project</span></button>
         </form>
 
         <div class="project-grid" id="project-container">
