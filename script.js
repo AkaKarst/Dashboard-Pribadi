@@ -82,7 +82,7 @@ window.switchTab = function(tabName) {
 };
 
 function startClock() {
-  const clockEl = document.getElementById('live-clock') || document.getElementById('clock');
+  const clockEl = document.getElementById('clock') || document.getElementById('live-clock');
   
   function updateTime() {
     const now = new Date();
@@ -95,7 +95,6 @@ function startClock() {
     }
   }
 
-  // Jalankan langsung agar tidak ada jeda awal 00:00:00
   updateTime();
   setInterval(updateTime, 1000);
 }
@@ -103,7 +102,6 @@ function startClock() {
 window.filterDay = function(dayName) {
   activeDay = dayName;
   
-  // Sinkronisasi class active pada tombol hari
   document.querySelectorAll('.day-btn').forEach(btn => {
     const btnText = btn.innerText.trim().toLowerCase();
     const targetText = dayName.toLowerCase();
@@ -141,21 +139,40 @@ function renderSchedule() {
 // ========================================================
 window.handleAddTask = function(e) {
   e.preventDefault();
-  const title = document.getElementById('task-title').value;
-  const category = document.getElementById('task-category').value;
-  const deadline = document.getElementById('task-deadline').value;
+
+  const titleEl = document.getElementById('task-title');
+  const categoryEl = document.getElementById('task-category');
+  const deadlineEl = document.getElementById('task-deadline');
+
+  if (!titleEl || !categoryEl || !deadlineEl) {
+    alert("Elemen input tugas tidak ditemukan!");
+    return;
+  }
+
+  const title = titleEl.value.trim();
+  const category = categoryEl.value;
+  const deadline = deadlineEl.value;
+
+  if (!title || !deadline) {
+    alert("Harap isi Judul Tugas dan Deadline!");
+    return;
+  }
 
   tasksRef.push({
-    title,
-    category,
-    deadline
+    title: title,
+    category: category,
+    deadline: deadline,
+    createdAt: new Date().toISOString()
   }).then(() => {
     e.target.reset();
+  }).catch((error) => {
+    console.error("Gagal menyimpan tugas ke Firebase:", error);
+    alert("Terjadi kesalahan saat menyimpan tugas ke Firebase.");
   });
 };
 
 window.deleteTask = function(key) {
-  db.ref(`tasks/${key}`).remove();
+  tasksRef.child(key).remove();
 };
 
 function renderTasks() {
@@ -177,7 +194,7 @@ function renderTasks() {
     return `
       <li class="task-item">
         <div>
-          <span class="badge ${badgeClass}">${t.category}</span>
+          <span class="badge ${badgeClass}">${t.category || 'Tugas'}</span>
           <strong style="font-style: italic; font-size: 1rem;">${t.title}</strong>
           <div style="font-size: 0.8rem; color: var(--p3-yellow-accent); margin-top: 4px;">
             <i class="fa-regular fa-calendar-xmark"></i> Deadline: ${t.deadline}
@@ -196,22 +213,36 @@ function renderTasks() {
 // ========================================================
 window.handleAddTransaction = function(e) {
   e.preventDefault();
-  const desc = document.getElementById('fin-desc').value;
-  const amount = parseFloat(document.getElementById('fin-amount').value);
-  const type = document.getElementById('fin-type').value;
+
+  const descEl = document.getElementById('fin-desc');
+  const amountEl = document.getElementById('fin-amount');
+  const typeEl = document.getElementById('fin-type');
+
+  if (!descEl || !amountEl || !typeEl) return;
+
+  const desc = descEl.value.trim();
+  const amount = parseFloat(amountEl.value);
+  const type = typeEl.value;
+
+  if (!desc || isNaN(amount)) {
+    alert("Harap masukkan keterangan dan jumlah transaksi yang valid!");
+    return;
+  }
 
   financeRef.push({
-    desc,
-    amount,
-    type,
+    desc: desc,
+    amount: amount,
+    type: type,
     date: new Date().toLocaleDateString('id-ID')
   }).then(() => {
     e.target.reset();
+  }).catch((error) => {
+    console.error("Gagal menyimpan transaksi:", error);
   });
 };
 
 window.deleteFinance = function(key) {
-  db.ref(`finance/${key}`).remove();
+  financeRef.child(key).remove();
 };
 
 function renderFinances() {
@@ -223,8 +254,8 @@ function renderFinances() {
 
   keys.forEach(key => {
     const t = currentFinance[key];
-    if (t.type === 'pemasukan') income += t.amount;
-    else expense += t.amount;
+    if (t.type === 'pemasukan') income += Number(t.amount || 0);
+    else expense += Number(t.amount || 0);
   });
 
   const totalBalance = income - expense;
@@ -255,7 +286,7 @@ function renderFinances() {
         </div>
         <div style="display: flex; align-items: center; gap: 12px;">
           <span style="font-weight: 900; font-style: italic; color: ${isInc ? '#00ff88' : 'var(--p3-red-accent)'};">
-            ${isInc ? '+' : '-'} Rp ${t.amount.toLocaleString('id-ID')}
+            ${isInc ? '+' : '-'} Rp ${(t.amount || 0).toLocaleString('id-ID')}
           </span>
           <button onclick="window.deleteFinance('${key}')" style="background: transparent; border: none; color: var(--p3-red-accent); cursor: pointer;">
             <i class="fa-solid fa-trash-can"></i>
@@ -271,19 +302,32 @@ function renderFinances() {
 // ========================================================
 window.handleAddProject = function(e) {
   e.preventDefault();
-  const title = document.getElementById('proj-title').value;
-  const desc = document.getElementById('proj-desc').value;
+
+  const titleEl = document.getElementById('proj-title');
+  const descEl = document.getElementById('proj-desc');
+
+  if (!titleEl || !descEl) return;
+
+  const title = titleEl.value.trim();
+  const desc = descEl.value.trim();
+
+  if (!title || !desc) {
+    alert("Harap isi nama dan deskripsi project!");
+    return;
+  }
 
   projectsRef.push({
-    title,
-    desc
+    title: title,
+    desc: desc
   }).then(() => {
     e.target.reset();
+  }).catch((error) => {
+    console.error("Gagal membuat project:", error);
   });
 };
 
 window.deleteProject = function(key) {
-  db.ref(`projects/${key}`).remove();
+  projectsRef.child(key).remove();
 };
 
 function renderProjects() {
@@ -320,15 +364,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Jalankan Jam Real-time
   startClock();
 
-  // 2. Pasang Event Listener pada Tombol Hari
-  const dayButtons = document.querySelectorAll('.day-btn');
-  dayButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const selectedDay = button.getAttribute('data-day') || button.innerText.trim();
-      window.filterDay(selectedDay);
-    });
-  });
-
-  // 3. Set Tampilan Awal ke Hari 'Senin'
+  // 2. Set Tampilan Awal Jadwal ke Hari 'Senin'
   window.filterDay('Senin');
 });
