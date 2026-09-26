@@ -163,12 +163,19 @@ window.handleAddTask = function(e) {
     title: title,
     category: category,
     deadline: deadline,
+    completed: false,
     createdAt: new Date().toISOString()
   }).then(() => {
     e.target.reset();
   }).catch((error) => {
     console.error("Gagal menyimpan tugas ke Firebase:", error);
     alert("Gagal menyimpan tugas: " + error.message);
+  });
+};
+
+window.toggleTaskComplete = function(key, currentStatus) {
+  tasksRef.child(key).update({
+    completed: !currentStatus
   });
 };
 
@@ -189,24 +196,36 @@ function renderTasks() {
     return;
   }
 
-  container.innerHTML = keys.map(key => {
-    const t = currentTasks[key];
+  // Urutkan tugas berdasarkan deadline terdekat
+  const taskArray = keys.map(key => ({ key, ...currentTasks[key] }));
+  taskArray.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+  container.innerHTML = taskArray.map(t => {
     let badgeClass = 'badge-matkul';
     if (t.category === 'Praktikum / UAP') badgeClass = 'badge-prak';
     if (t.category === 'UTS / UAS') badgeClass = 'badge-ujian';
 
+    const isDone = t.completed || false;
+
     return `
-      <li class="task-item">
-        <div style="flex: 1;">
-          <div style="margin-bottom: 6px;">
-            <span class="badge ${badgeClass}">${t.category || 'Tugas'}</span>
-          </div>
-          <strong style="color: #ffffff; font-size: 1.05rem; font-style: italic;">${t.title}</strong>
-          <div style="font-size: 0.85rem; color: #ffcc00; margin-top: 6px; font-weight: 800;">
-            <i class="fa-regular fa-calendar-xmark"></i> Deadline: ${t.deadline}
+      <li class="task-item" style="${isDone ? 'opacity: 0.55; border-color: #444;' : ''}">
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+          <input type="checkbox" ${isDone ? 'checked' : ''} 
+                 onchange="window.toggleTaskComplete('${t.key}', ${isDone})" 
+                 style="width: 18px; height: 18px; cursor: pointer; accent-color: #ffcc00;">
+          <div>
+            <div style="margin-bottom: 4px;">
+              <span class="badge ${badgeClass}">${t.category || 'Tugas'}</span>
+            </div>
+            <strong style="color: #ffffff; font-size: 1.05rem; font-style: italic; ${isDone ? 'text-decoration: line-through;' : ''}">
+              ${t.title}
+            </strong>
+            <div style="font-size: 0.85rem; color: ${isDone ? '#aaa' : '#ffcc00'}; margin-top: 4px; font-weight: 800;">
+              <i class="fa-regular fa-calendar-xmark"></i> Deadline: ${t.deadline}
+            </div>
           </div>
         </div>
-        <button onclick="window.deleteTask('${key}')" title="Hapus Tugas" style="background: transparent; border: none; color: #ff0044; cursor: pointer; font-size: 1.2rem; padding: 6px;">
+        <button onclick="window.deleteTask('${t.key}')" title="Hapus Tugas" style="background: transparent; border: none; color: #ff0044; cursor: pointer; font-size: 1.2rem; padding: 6px;">
           <i class="fa-solid fa-trash-can"></i>
         </button>
       </li>
@@ -360,6 +379,14 @@ function renderProjects() {
 // 7. INISIALISASI SAAT HALAMAN DIMUAT (DOM READY)
 // ========================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Jalankan Jam WITA Real-time
   startClock();
-  window.filterDay('Senin');
+
+  // Otomatis Aktifkan Tab Hari Ini Sesuai Sistem
+  const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const todayName = days[new Date().getDay()];
+  
+  // Jika hari Minggu, default ke Senin
+  const initialDay = (todayName === 'Minggu') ? 'Senin' : todayName;
+  window.filterDay(initialDay);
 });
